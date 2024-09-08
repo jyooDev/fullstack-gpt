@@ -1,6 +1,6 @@
 from langchain.chat_models import ChatOpenAI
 from langchain.callbacks.base import BaseCallbackHandler
-from langchain.callbacks import StdOutCallbackHandler
+from langchain.callbacks import StreamingStdOutCallbackHandler
 from rag.chat import save_message
 import streamlit as st
 
@@ -25,6 +25,7 @@ def get_openai_model(api_key):
         model = "gpt-4o-mini",
         temperature=0.1,
         streaming=True,
-        callbacks=[ChatCallbackHandler()],
+        # callbacks=[ChatCallbackHandler()],
+        callbacks=[StreamingStdOutCallbackHandler()],
         openai_api_key=api_key,
     )

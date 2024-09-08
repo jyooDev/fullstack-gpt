@@ -43,7 +43,7 @@ def embed_file(file, service, api_key):
     return retriever
 
 
-def get_wikipedia_retriever():
-    return WikipediaRetriever(
-        top_k_results=5,
-        )
+@st.cache_data(show_spinner="Searching Wikipedia...", ttl = timedelta(hours=1))
+def get_docs_from_wikipedia_retriever(topic):
+    retriever = WikipediaRetriever(top_k_results=5)
+    return retriever.get_relevant_documents(topic)

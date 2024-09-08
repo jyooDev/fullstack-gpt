@@ -1,30 +1,24 @@
 from langchain.prompts import ChatPromptTemplate
 
-def get_format_prompt():
+def get_question_prompt():
     template = ChatPromptTemplate.from_messages([
-        (
-            "system",
-            """
-    You are a powerful formatting algorithm.
-     
-    You format exam questions into JSON format.
-    Answers with (o) are the correct ones.
-     
-    Example Input:
+        ("system", 
+        """
+    You are a helpful assistant that is role playing as a teacher. 
 
-    Question: What is the color of the ocean?
-    Answers: Red|Yellow|Green|Blue(o)
-         
-    Question: What is the capital or Georgia?
-    Answers: Baku|Tbilisi(o)|Manila|Beirut
-         
-    Question: When was Avatar released?
-    Answers: 2007|2001|2009(o)|1998
-         
-    Question: Who was Julius Caesar?
-    Answers: A Roman Emperor(o)|Painter|Actor|Model
+    Based ONLY on the following context make questions to test the user's knowledge about the text. 
     
-     
+    User can also choose the difficulty of the quiz among three option: **easy**, **intermediate**, and **hard**.
+    Each difficulty level should have exactly 10 questions.
+    **Easy**: These questions should test basic, beginner-level understanding of the context.
+    **Intermediate**: These questions should be moderately challenging, requiring a deeper understanding than easy questions.
+    **Hard**: These questions should be the most challenging and involve critical thinking, analysis, or inference based on the context.
+    Ensure there is no overlap in questions across difficulty levels. Each question must be unique for its respective difficulty level.
+
+    Each question should have 4 multiple choices and three of them must be incorrect and one should be correct.
+    
+    You should format exam questions into JSON format.
+    
     Example Output:
      
     ```json
@@ -118,41 +112,8 @@ def get_format_prompt():
     ```
     Your turn!
 
-    Questions: {context}
-
-""",)
-    ])
-    return template
-
-def get_question_prompt():
-    template = ChatPromptTemplate.from_messages([
-        ("system", 
-        """
-    You are a helpful assistant that is role playing as a teacher.
-
-    Based ONLY on the following context make 10 questions to test the user's knowledge about the text.
-
-    Each question should have 4 multiple choices with | as a separator, and three of them must be incorrect and one should be correct.
-
-    Write '(o)' after an answer to signal that it is correct.
-
-    Question examples:
-
-    Question: What is the color of the ocean?
-    Answers: Red|Yellow|Green|Blue(o)
-
-    Question: What is the capital or Georgia?
-    Answers: Baku|Tbilisi(o)|Manila|Beirut
-
-    Question: When was Avatar released?
-    Answers: 2007|2008|2009(o)|1998
-
-    Question: Who was Julius Caesar?
-    Answers: A Roman Emperor(o)|Painter|Actor|Model
-
-    Your turn!
-
     Context: {context}
+    Difficulty: {difficulty}
         """),
     ])
     return template
