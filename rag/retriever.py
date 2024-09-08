@@ -1,13 +1,17 @@
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.document_loaders import UnstructuredFileLoader
 from langchain.embeddings import CacheBackedEmbeddings, OpenAIEmbeddings
+from langchain.retrievers import WikipediaRetriever
 from langchain.vectorstores.faiss import FAISS
 from langchain.storage import LocalFileStore
 import os
+import streamlit as st
+from datetime import timedelta
 
+@st.cache_data(show_spinner="Loading file...", ttl = timedelta(hours=1))
 def load_split_docs(file, service):
-    file_content = file.read(file)
-    file_path = f"./cache/files/{service}-gpt/{file.name}"
+    file_content = file.read()
+    file_path = f"./.cache/files/{service}-gpt/{file.name}"
     os.makedirs(os.path.dirname(file_path), exist_ok=True) 
     with open(file_path, "wb") as f:
         f.write(file_content)
@@ -27,6 +31,7 @@ def create_cache_dir(file):
     return LocalFileStore(cache_dir_path) 
 
 
+@st.cache_data(show_spinner="Embedding file...", ttl = timedelta(hours=1))
 def embed_file(file, service, api_key):
     docs = load_split_docs(file, service)
     cache_dir = create_cache_dir(file)
@@ -36,3 +41,9 @@ def embed_file(file, service, api_key):
     vectorstore = FAISS.from_documents(docs, cached_embeddings)
     retriever = vectorstore.as_retriever()
     return retriever
+
+
+def get_wikipedia_retriever():
+    return WikipediaRetriever(
+        top_k_results=5,
+        )
