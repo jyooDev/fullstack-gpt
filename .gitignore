@@ -4,3 +4,4 @@ env
 .cache
 document.txt
 .streamlit
+__pycache__
