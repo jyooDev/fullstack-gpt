@@ -36,9 +36,9 @@ with st.sidebar:
         st.session_state["valid_api_key"] = validate_api_key(api_key)
     if st.session_state["valid_api_key"] and file:
         retriever = embed_file(
-            file = file, 
-            service = "document",
-            api_key= api_key
+            file=file, 
+            service="document",
+            api_key=api_key
         )
         llm = get_openai_model(api_key, "chat")
         send_message("I'm ready! Ask away!", "ai", save=False)
