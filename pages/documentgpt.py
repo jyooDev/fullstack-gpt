@@ -2,7 +2,7 @@ from rag.prompt.document_prompt import get_document_prompt
 from langchain.schema.runnable import RunnableLambda, RunnablePassthrough
 import streamlit as st
 from rag.retriever import embed_file
-from rag.chat import save_message, send_message, format_docs, paint_history
+from rag.chat import send_message, format_docs, paint_history
 from rag.model import get_openai_model
 from rag.validation import validate_api_key
 
