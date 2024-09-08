@@ -70,7 +70,6 @@ else:
         topic=topic if topic else file.name,
         difficulty = difficulty,
         _chain = chain,)
-    st.write(response)
     with st.form("questions_form"):
         answer_ct = 0
         for question in response:
