@@ -20,12 +20,15 @@ class ChatCallbackHandler(BaseCallbackHandler):
 
 
 @st.cache_resource
-def get_openai_model(api_key):
+def get_openai_model(api_key, callback_handler : str = "streamingStdOut"):
+    if callback_handler == "streamingStdOut":
+        callback_handler = StreamingStdOutCallbackHandler()
+    elif callback_handler == "chat":
+        callback_handler = ChatCallbackHandler()
     return ChatOpenAI(
         model = "gpt-4o-mini",
         temperature=0.1,
-        streaming=True,
-        # callbacks=[ChatCallbackHandler()],
-        callbacks=[StreamingStdOutCallbackHandler()],
+        streaming=True,        
+        callbacks=[callback_handler],
         openai_api_key=api_key,
     )

@@ -1,9 +1,7 @@
 import streamlit as st
-from langchain.schema.runnable import RunnableLambda, RunnablePassthrough
 from rag.retriever import load_split_docs, get_docs_from_wikipedia_retriever
 from rag.model import get_openai_model
 from rag.prompt.quiz_gpt import get_question_prompt
-from rag.chat import format_docs
 from rag.validation import validate_api_key
 from rag.chain import run_quiz_chain
 from rag.functions.quiz_function import function
@@ -48,6 +46,7 @@ with st.sidebar:
     st.markdown(
         """
         GitHub
+        
         https://github.com/jyooDev/fullstack-gpt
         """
     )    

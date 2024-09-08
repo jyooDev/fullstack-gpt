@@ -9,6 +9,9 @@ def send_message(message, role, save=True):
     if save:
         save_message(message, role)
 
-        
+def paint_history():
+    for message in st.session_state["messages"]:
+        send_message(message["message"], message["role"], save=False)
+
 def format_docs(docs):
     return "\n\n".join(document.page_content for document in docs)
