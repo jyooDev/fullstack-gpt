@@ -45,6 +45,13 @@ with st.sidebar:
         difficulty = st.radio(
             "Select the Quiz Difficulty",
             ["Easy", "Intermediate", "Hard"])
+    st.markdown(
+        """
+        GitHub
+        https://github.com/jyooDev/fullstack-gpt
+        """
+    )    
+    
 
 if not docs or not api_key:
     st.markdown(
