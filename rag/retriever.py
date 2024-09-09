@@ -8,6 +8,14 @@ import os
 import streamlit as st
 from datetime import timedelta
 
+
+def get_splitter():
+    return CharacterTextSplitter.from_tiktoken_encoder(
+        separator = "\n",
+        chunk_size = 600,
+        chunk_overlap = 100,
+    )
+
 @st.cache_data(show_spinner="Loading file...", ttl = timedelta(hours=1))
 def load_split_docs(file, service):
     file_content = file.read()
@@ -16,11 +24,7 @@ def load_split_docs(file, service):
     with open(file_path, "wb") as f:
         f.write(file_content)
     loader = UnstructuredFileLoader(file_path)
-    splitter = CharacterTextSplitter.from_tiktoken_encoder(
-        separator = "\n",
-        chunk_size = 600,
-        chunk_overlap = 100,
-    )
+    splitter = get_splitter()
     docs = loader.load_and_split(text_splitter=splitter)
     return docs
 
