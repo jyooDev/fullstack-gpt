@@ -1,10 +1,13 @@
 import streamlit as st
-from rag.retriever import load_split_docs, get_docs_from_wikipedia_retriever
-from rag.model import get_openai_model
-from rag.prompt.quiz_gpt import get_question_prompt
-from rag.validation import validate_api_key
-from rag.chain import run_quiz_chain
+from rag.retriever.file_retriever import load_split_docs
+from rag.retriever.wikipedia_retriever import get_docs_from_wikipedia_retriever
 from rag.functions.quiz_function import function
+from rag.model import get_openai_model, CallbackHandler
+from rag.prompt.quiz_prompt import get_question_prompt
+from rag.validation import validate_api_key
+from rag.chat import format_docs
+import json
+
 st.set_page_config(
     page_title = "QuizGPT",
     page_icon = "",
@@ -13,6 +16,8 @@ st.set_page_config(
 
 if "valid_api_key" not in st.session_state:
     st.session_state["valid_api_key"] = False
+
+
 st.title("QuizGPT")
 
 
@@ -43,14 +48,25 @@ with st.sidebar:
         difficulty = st.radio(
             "Select the Quiz Difficulty",
             ["Easy", "Intermediate", "Hard"])
-    st.markdown(
-        """
-        GitHub
-        
-        https://github.com/jyooDev/fullstack-gpt
-        """
-    )    
+    st.link_button(
+        label = "GitHub Link:computer:",
+        url = "https://github.com/jyooDev/fullstack-gpt"
+    ) 
     
+
+@st.cache_data(show_spinner="Making quiz...")
+def run_quiz_chain(_docs, topic, difficulty, _chain):
+    chain =  _chain
+    response = chain.invoke(
+        {
+        "context": format_docs(_docs),
+        "difficulty": difficulty
+    }
+    )
+    response = response.additional_kwargs["function_call"]["arguments"]
+    response = json.loads(response)["questions"]
+    return response
+
 
 if not docs or not api_key:
     st.markdown(
@@ -61,7 +77,7 @@ if not docs or not api_key:
     """
     )    
 else:     
-    llm = get_openai_model(api_key).bind(
+    llm = get_openai_model(api_key, CallbackHandler.StreamingStdOut).bind(
         function_call={
             "name": "generate_quiz",
         },
