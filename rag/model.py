@@ -1,9 +1,14 @@
 from langchain.chat_models import ChatOpenAI
 from langchain.callbacks.base import BaseCallbackHandler
 from langchain.callbacks import StreamingStdOutCallbackHandler
+from langchain.pydantic_v1 import Field
 from rag.chat import save_message
 import streamlit as st
+from enum import Enum
 
+class CallbackHandler(Enum):
+    Chat = 1
+    StreamingStdOut = 2
 
 class ChatCallbackHandler(BaseCallbackHandler):
     message = ""
@@ -19,16 +24,26 @@ class ChatCallbackHandler(BaseCallbackHandler):
         self.message_box.markdown(self.message)
 
 
-@st.cache_resource
-def get_openai_model(api_key, callback_handler : str = "streamingStdOut"):
-    if callback_handler == "streamingStdOut":
-        callback_handler = StreamingStdOutCallbackHandler()
-    elif callback_handler == "chat":
-        callback_handler = ChatCallbackHandler()
+@st.cache_data
+def get_openai_model(api_key, callback_handler : CallbackHandler | None = None):
+    
+    if callback_handler is None:
+        return ChatOpenAI(
+        model = "gpt-4o-mini",
+        temperature=0.1,
+        openai_api_key=api_key,
+    )
+
+    match callback_handler:
+        case CallbackHandler.StreamingStdOut:
+            handler = StreamingStdOutCallbackHandler()
+        case CallbackHandler.Chat:
+            handler = ChatCallbackHandler()
+
     return ChatOpenAI(
         model = "gpt-4o-mini",
         temperature=0.1,
         streaming=True,        
-        callbacks=[callback_handler],
+        callbacks=[handler],
         openai_api_key=api_key,
     )
