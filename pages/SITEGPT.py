@@ -6,8 +6,9 @@ from rag.model import get_openai_model, CallbackHandler
 from rag.chat import send_message, paint_history
 from langchain.schema.runnable import RunnableLambda, RunnablePassthrough
 import streamlit as st
-import asyncio
-asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+
+# import asyncio
+# asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
 
 
 st.set_page_config(
