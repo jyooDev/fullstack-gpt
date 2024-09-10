@@ -72,7 +72,7 @@ with st.sidebar:
     
     st.link_button(
         label = "GitHub Code:computer:",
-        url = "https://github.com/jyooDev/fullstack-gpt"
+        url = "https://github.com/jyooDev/fullstack-gpt/blob/main/pages/SITEGPT.py"
     )
 
 if st.session_state["valid_api_key"]:

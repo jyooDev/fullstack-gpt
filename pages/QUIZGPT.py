@@ -50,7 +50,7 @@ with st.sidebar:
             ["Easy", "Intermediate", "Hard"])
     st.link_button(
         label = "GitHub Link:computer:",
-        url = "https://github.com/jyooDev/fullstack-gpt"
+        url = "https://github.com/jyooDev/fullstack-gpt/blob/main/pages/QUIZGPT.py"
     ) 
     
 

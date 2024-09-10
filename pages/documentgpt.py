@@ -36,7 +36,7 @@ with st.sidebar:
                             "pdf", "txt", "docx", "md"])
     st.link_button(
         label = "GitHub Link:computer:",
-        url = "https://github.com/jyooDev/fullstack-gpt"
+        url = "https://github.com/jyooDev/fullstack-gpt/blob/main/pages/documentgpt.py"
     )
 
 if st.session_state["valid_api_key"] and file:
