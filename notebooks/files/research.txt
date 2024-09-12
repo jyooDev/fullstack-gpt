@@ -1,0 +1,19 @@
+# XZ Utils Backdoor
+
+## Overview
+In February 2024, a malicious backdoor was introduced to the Linux utility xz within the liblzma library in versions 5.6.0 and 5.6.1 by an account using the name "Jia Tan". The backdoor gives an attacker who possesses a specific Ed448 private key remote code execution capabilities on the affected Linux system. The issue has been given the Common Vulnerabilities and Exposures number CVE-2024-3094 and has been assigned a CVSS score of 10.0, the highest possible score.
+
+## Discovery
+The backdoor was discovered by software developer Andres Freund, who reported it on 29 March 2024 after investigating performance issues in Debian Sid. Freund noticed unusual CPU usage during SSH connections, which led to the discovery of the backdoor.
+
+## Mechanism
+The malicious code is present in the 5.6.0 and 5.6.1 releases of the XZ Utils software package. It remains dormant unless a specific third-party patch of the SSH server is used. The backdoor alters the behavior of OpenSSH's SSH server daemon, allowing unauthorized remote access.
+
+## Response
+The US federal Cybersecurity and Infrastructure Security Agency (CISA) issued a security advisory recommending that affected devices roll back to a previous uncompromised version. Major Linux distributions reverted the affected packages to older versions.
+
+## Conclusion
+The XZ Utils backdoor incident highlights the vulnerabilities in open-source software maintenance and the potential for sophisticated supply chain attacks. It raises concerns about the reliance on unpaid volunteers for critical software infrastructure.
+
+## References
+- Wikipedia: [XZ Utils backdoor](https://en.wikipedia.org/wiki/XZ_Utils_backdoor)
