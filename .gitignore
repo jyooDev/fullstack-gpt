@@ -5,3 +5,4 @@ env
 document.txt
 .streamlit
 __pycache__
+*.cache
