@@ -6,8 +6,8 @@ import streamlit as st
 def validate_api_key(api_key):
     openai.api_key = api_key
     try:
-        openai.Model.list()
-    except openai.error.AuthenticationError as e:
+        openai.models.list()
+    except openai.AuthenticationError as e:
         st.warning("Invalid API Key")
         api_key = None
         return False
