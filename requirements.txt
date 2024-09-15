@@ -90,7 +90,7 @@ jsonschema-specifications==2023.7.1
 jupyter_client==8.3.1
 jupyter_core==5.3.1
 kiwisolver==1.4.5
-langchain
+langchain==0.0.332
 langcodes==3.3.0
 langsmith==0.0.52
 layoutparser==0.3.4
@@ -119,7 +119,7 @@ olefile==0.46
 omegaconf==2.3.0
 onnx==1.14.1
 onnxruntime==1.16.0
-openai==0.28.0
+openai
 opencv-python==4.8.0.76
 openpyxl==3.1.2
 orjson==3.9.9
